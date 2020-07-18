@@ -19,6 +19,7 @@ db.on('error', function(error) {
 db.once('open', function(){
   console.log("Connected to mongodb server");
 });
+// console.log(mongoose.connection)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

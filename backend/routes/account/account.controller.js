@@ -2,7 +2,7 @@ const Account = require('../../models/account');
 const Joi = require('joi')
 
 exports.register = async (req, res) => {
-    console.log(req.headers);
+    console.log("Try register: " + req.headers);
 
     /* Add account */
     let account = null;

@@ -11,17 +11,5 @@ const Contact = new Schema({
     timestamps: true
 })
 
-// Contact.statics.register = function({ id, name, number }) {
-//     const contact = new this({
-//         id: id,
-//         name: name,
-//         number: number,
-//     })
-//     return contact.save()
-// }
-
-// Contact.statics.findById = function(id) {
-//     return this.findOne({'id': id}).exec();
-// }
 
 module.exports = mongoose.model('Contact', Contact)

@@ -33,7 +33,7 @@ Account.methods.addContact = function({ id, name, number }) {
         number: number,
     });
 
-    
+    /* Check duplicate */
     let result = this.contact.filter(function(object) {
         return object["id"] === id;
     })
@@ -44,9 +44,26 @@ Account.methods.addContact = function({ id, name, number }) {
     var temp = JSON.parse(JSON.stringify( this.contact ))
     temp.push(contact);
     this.contact = temp;
-    console.log(this)
+    console.log("Add contact: " + contact)
     this.save();
     return contact;
 };
+
+Account.methods.addImage = function(fileName) {
+    /* Check duplicate */
+    let result = this.gallery.filter(function(object) {
+        return object === fileName;
+    })
+    if (result.length != 0) {
+        return 
+    }
+
+    var temp = JSON.parse(JSON.stringify( this.gallery ))
+    temp.push(fileName);
+    this.gallery = temp;
+    console.log("Add image: " + fileName)
+    this.save();
+    return;
+}
 
 module.exports = mongoose.model('Account', Account)

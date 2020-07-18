@@ -9,8 +9,6 @@ exports.register = async (req, res) => {
         name: Joi.string().required(),
         number: Joi.string().required()
     });
-    console.log(req.body.user);
-    // console.log(req.headers.token);
     let result = schema.validate(req.body.user);
     if (result.error) {
         res.status(400).json({ message: result.error.message });
