@@ -9,25 +9,12 @@ const storage = multer.diskStorage({
     destination : function(req, file, cb) {
         cb(null, '/root/madcamp_second/backend/public/images');
     },
+    
     filename: function(req, file, cb) {
-        let mimeType;
-        switch (file.mimetype) {
-            case "image/jpeg" | "image/jpg":
-                mimeType = "jpg";
-                break;
-            case "image/png":
-                mimeType = "png";
-                break;
-            case "image/gif":
-                mimeType = "gif";
-                break;
-            case "image/bmp":
-                mimeType = "bmp";
-                break;
-            default:
-                mimeType = "jpg";
-        }
-        cb(null, file.originalname);
+        console.log(file.originalname);
+        cb(null, req.headers.userid 
+            + "_" + req.headers.imagekind 
+            + "_" + file.originalname);
     }
 });
 
@@ -35,4 +22,5 @@ const upload = multer({storage: storage});
 
 router.post('/upload', upload.single('image'), imageCtrl.upload);
 
+router.get('/download', imageCtrl.download);
 module.exports = router;
