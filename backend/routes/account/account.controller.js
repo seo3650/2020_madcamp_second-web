@@ -12,6 +12,10 @@ exports.register = async (req, res) => {
         res.status(500).json({ message: e.message });
         return;
     }
+    if (account == null) {
+        res.status(204).send();
+        return;
+    }
 
     res.status(200).json({ result: req.body.user })
 };

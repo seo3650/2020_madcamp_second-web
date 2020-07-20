@@ -1,6 +1,7 @@
 const Contact = require('../../models/contact');
 const Account = require('../../models/account');
-const Joi = require('joi')
+const Joi = require('joi');
+const contact = require('../../models/contact');
 
 exports.register = async (req, res) => {
     /* Verify data */
@@ -25,15 +26,27 @@ exports.register = async (req, res) => {
     }
 
     /* Add contact */
-    let contact = null
-    try {
-        contact = await account.addContact(req.body.user);
-    } catch (e) {
-        res.status(500).json({ message: e });
+    let contacts = await account.contact.filter(function(object) {
+        return object["id"] == req.body.user.id;
+    })
+    console.log(contacts);
+    if (contacts.length != 0) {
+        res.status(204).json({ message: "Contact is already saved." });
         return;
     }
 
-    res.status(200).json({ result: contact })
+    const updateResult = await Account.updateOne(
+        { _id: account._id },
+        { 
+            $push: {
+                contact: req.body.user
+            }
+        }
+    )
+    console.log(updateResult)
+
+    res.status(200).json({ message: updateResult });
+    return;
 };
 
 // exports.getContact = async (req, res) => {

@@ -15,12 +15,25 @@ exports.upload = async (req, res) => {
     }
 
     /* Add image */
-    try {
-        await account.addImage(req.file.filename);
-    } catch (e) {
-        res.status(500).json({ message: e });
+    let image = await account.gallery.filter(function(object) {
+        return object == req.file.filename;
+    })
+    console.log(image);
+    if (image.length != 0) {
+        res.status(204).json({ message: "image is already saved." });
         return;
     }
 
-    res.status(201).send()
+    const updateResult = await Account.updateOne(
+        { _id: account._id },
+        { 
+            $push: {
+                gallery: req.file.filename
+            }
+        }
+    )
+    console.log(updateResult)
+
+    res.status(200).json({ message: updateResult });
+    return;
 };
